@@ -2,5 +2,5 @@
   <input id = "width" type = "text" value.bind = "width" />
   <input id = "height" type = "text" value.bind = "height" />
   <button click.delegate = "generate()">Generate</button>
-  <canvas id="myCanvas" width="1000" height="1000" ></canvas>
+  <canvas id="myCanvas" width.bind="width" height.bind="height" ></canvas>
 </template>

@@ -2,16 +2,15 @@ import {Pixel} from './pixel';
 
 export class App {
 
-  public width: number;
-  public height: number;
+  public width: number = 1000;
+  public height: number = 1000;
   public data: Pixel[][];
   private context: any;
+  private RATIO: number = 10;
   
   attached() {
     const canvas:any = document.getElementById('myCanvas');
-    this.context = canvas.getContext('2d');
-    this.width = 1000;
-    this.height = 1000;
+    this.context = canvas.getContext('2d');   
     this.populateData();
     this.render();
 
@@ -24,7 +23,7 @@ export class App {
 
   generate() {  
     this.populateData();    
-    this.drawGrid(); 
+    this.render();
   }
 
   private populateData() {
@@ -50,31 +49,31 @@ export class App {
     requestAnimationFrame(this.render);
   }
 
-  private getSquare(canvas, evt) {
+  private getSquare(canvas: any, evt: any) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: 1 + (evt.clientX - rect.left) - (evt.clientX - rect.left)%10,
-        y: 1 + (evt.clientY - rect.top) - (evt.clientY - rect.top)%10
+        x: 1 + (evt.clientX - rect.left) - (evt.clientX - rect.left)%this.RATIO,
+        y: 1 + (evt.clientY - rect.top) - (evt.clientY - rect.top)%this.RATIO
     };
   }
   
   private drawGrid() {
-    for (var x = 0.5; x < 10001; x += 10) {
+    for (var x = 0.5; x < (this.width * this.RATIO) + 1; x += this.RATIO) {
       this.context.moveTo(x, 0);
-        this.context.lineTo(x, 10000);
+        this.context.lineTo(x, this.width * this.RATIO);
     }
     
-    for (var y = 0.5; y < 10001; y += 10) {
+    for (var y = 0.5; y < (this.height * this.RATIO) + 1; y += this.RATIO) {
       this.context.moveTo(0, y);
-      this.context.lineTo(10000, y);
+      this.context.lineTo((this.height * this.RATIO), y);
     }
     
     this.context.strokeStyle = "#ddd";
     this.context.stroke();
   }
   
-  private fillSquare( x, y){
+  private fillSquare( x: number, y: number){
     this.context.fillStyle = "gray"
-    this.context.fillRect(x,y,9,9);
+    this.context.fillRect(x,y,this.RATIO - 1,this.RATIO - 1);
   }
 }
