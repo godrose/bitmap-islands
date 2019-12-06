@@ -1,29 +1,6 @@
-<template>
-  <!-- <h1>${message}</h1>
-  <form submit.trigger="calculate()">
-      <input id="firstParameter" type="text" value.bind="firstParameter">
-      <select value.bind="selectedOperator" >
-        <option model.bind="null">Choose...</option>
-        <option repeat.for="operator of operators"
-                model.bind="operator">
-          ${operator.displayName}
-        </option>
-      </select>     
-      <button type="submit">Calculate</button>
-      <input id="secondParameter" type="text" value.bind="secondParameter">
-    </form>
-  <div>
-      <textarea value.bind="result">
-  </div> -->
-  
-  <!-- <table border="1">
-      <template repeat.for="i of 100">
-          <tr>
-              <td virtual-repeat.for="j of numbers">${$parent.i}, ${j}</td>
-          </tr>
-      </template>
-  </table> -->
-  
-  <canvas id="myCanvas" width="10000" height="10000"></canvas>
-
+<template>   
+  <input id = "width" type = "text" value.bind = "width" />
+  <input id = "height" type = "text" value.bind = "height" />
+  <button click.delegate = "generate()">Generate</button>
+  <canvas id="myCanvas" width="1000" height="1000" ></canvas>
 </template>
