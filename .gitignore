@@ -37,5 +37,5 @@ node_modules
 /test/coverage-karma
 
 /.chrome/*
-.chrome/Default
+.chrome/Local State
 .chrome/*
