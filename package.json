@@ -10,7 +10,10 @@
   "dependencies": {
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
-    "aurelia-ui-virtualization": "^1.0.0-beta.7"
+    "aurelia-ui-virtualization": "^1.0.0-beta.7",
+    "stack-lifo": "^0.1.6",
+    "stack-typescript": "^1.0.4",
+    "ts-data.stack": "^1.0.6"
   },
   "devDependencies": {
     "@types/jest": "^24.0.9",

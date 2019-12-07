@@ -4,11 +4,13 @@ import { Pixel } from './pixel';
 
 export class App {
 
-  public columns: number = 1000;
-  public rows: number = 1000;
+  public columns: number = 200;
+  public rows: number = 200;
   public data: Pixel[][];
   private context: any;
   private SIZE: number = 10;
+  public width;
+  public height;
   
   attached() {
     const canvas:any = document.getElementById('myCanvas');
@@ -31,6 +33,8 @@ export class App {
   }
 
   generate() {  
+    this.width = this.columns * this.SIZE;
+    this.height = this.rows * this.SIZE;
     this.populateData();    
     this.render();
   }

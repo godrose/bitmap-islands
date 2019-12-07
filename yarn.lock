@@ -2513,6 +2513,13 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+dbly-linked-list@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/dbly-linked-list/-/dbly-linked-list-0.2.0.tgz#d30f5225dc1ce72220d7931489b0c5703b1aa8aa"
+  integrity sha512-Ool7y15f6JRDs0YKx7Dh9uiTb1jS1SZLNdT3Y2q16DlaEghXbMsmODS/XittjR2xztt1gJUpz7jVxpqAPF8VGg==
+  dependencies:
+    lodash.isequal "^4.5.0"
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.2, debug@^2.3.3, debug@^2.6.8:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -5279,6 +5286,11 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
 lodash.memoize@4.x:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -7415,6 +7427,13 @@ ssri@^6.0.1:
   integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
   dependencies:
     figgy-pudding "^3.5.1"
+
+stack-lifo@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/stack-lifo/-/stack-lifo-0.1.6.tgz#963828db301e808d3c8aed3d00f62983d75245ea"
+  integrity sha512-fNXXK6AHbOIExOtJYPb1RlP8OXQr8tlpDNP5I78ZId9uK+MDCcDAkwGWTDACYLXAwOhaKLTYwkoSOihAt+/cLg==
+  dependencies:
+    dbly-linked-list "0.2.0"
 
 stack-trace@0.0.10:
   version "0.0.10"
