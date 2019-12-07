@@ -1,26 +1,30 @@
+import { DataService } from './model/data-service';
 import { Graph } from './graph';
 import { Matrix } from './matrix';
-import { Pixel } from './pixel';
+import { autoinject } from 'aurelia-framework';
 
+@autoinject
 export class App {
-
-  public columns: number = 200;
-  public rows: number = 200;
-  public data: Pixel[][];
+  
   private context: any;
   private SIZE: number = 10;
   public width;
-  public height;
-  
+  public height;  
+
+  constructor(private dataService : DataService) {    
+  }
+
   attached() {
+    this.dataService.initBoard();
     const canvas:any = document.getElementById('myCanvas');
     this.context = canvas.getContext('2d');   
     this.generate();
+    this.render();
 
     canvas.addEventListener('click', evt => {      
       var mousePos = this.getSquare(canvas, evt);
       let position = this.toData(mousePos);
-      this.data[position.row][position.col].isMarked = !this.data[position.row][position.col].isMarked;  
+      this.dataService.toggleState(position.row, position.col);      
       this.render();  
 }, false);
   }
@@ -33,24 +37,18 @@ export class App {
   }
 
   generate() {  
-    this.width = this.columns * this.SIZE;
-    this.height = this.rows * this.SIZE;
-    this.populateData();    
-    this.render();
+    this.width = this.dataService.columns * this.SIZE;
+    this.height = this.dataService.rows * this.SIZE;
+    this.dataService.initBoard();        
   }
 
   clear() {
     this.generate();
+    this.render();
   }
 
   randomise() {
-    for (let row = 0; row < this.rows; row++) {      
-      for (let col = 0; col < this.columns; col++) {        
-        let pixel = this.data[row][col];        
-        let val = Math.random();        
-        pixel.isMarked = val >= 0.8;        
-      }            
-    }    
+    this.dataService.randomiseBoard(); 
     this.render();
   }
 
@@ -59,9 +57,9 @@ export class App {
     let components = graph.calcConnectedComponents();
     components.forEach((component, componentIndex) => {
       component.forEach(nodeIndex => {
-        let row = Math.floor(nodeIndex / this.columns);
-        let col = nodeIndex % this.columns;        
-        this.data[row][col].color = this.getColor(componentIndex);
+        let row = Math.floor(nodeIndex / this.dataService.columns);
+        let col = nodeIndex % this.dataService.columns;        
+        this.dataService.data[row][col].color = this.getColor(componentIndex);
       })
     });
     this.render();
@@ -74,8 +72,9 @@ export class App {
 
   mapToGraph() : Graph {
     let nodes = [];
-    for (let i = 0; i < this.data.length; i++) {
-      const row = this.data[i];
+    let data = this.dataService.data;
+    for (let i = 0; i < data.length; i++) {
+      const row = data[i];
       for (let j = 0; j < row.length; j++) {
         const element = row[j];
         if (element.isMarked) {
@@ -84,16 +83,16 @@ export class App {
       }
     }
     let graph = new Graph(nodes);
-    let cols = this.columns;
-    let rows = this.rows;
-    for (let rowIndex = 0; rowIndex < this.data.length; rowIndex++) {
-      const row = this.data[rowIndex];
+    let cols = this.dataService.columns;
+    let rows = this.dataService.rows;
+    for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
+      const row = data[rowIndex];
       for (let colIndex = 0; colIndex < row.length; colIndex++) {
         const element = row[colIndex];
         if (element.isMarked) {
-          let neighbors = Matrix.getNeighbors(this.rows, this.columns, rowIndex, colIndex);
+          let neighbors = Matrix.getNeighbors(this.dataService.rows, this.dataService.columns, rowIndex, colIndex);
           neighbors.forEach(n => {     
-            if (this.data[n.row][n.col].isMarked) {
+            if (data[n.row][n.col].isMarked) {
               graph.addEdge(rowIndex * cols + colIndex, n.row * rows + n.col);
             }            
           })
@@ -104,28 +103,21 @@ export class App {
   }
 
   getIndex(row: number, col: number) : number {
-    return row * this.columns + col;
-  }  
-
-  private populateData() {
-    this.data = new Array<Array<Pixel>>();
-    for (let row = 0; row < this.rows; row++) {
-      let arr = new Array<Pixel>();      
-      for (let col = 0; col < this.columns; col++) {                    
-        arr.push(new Pixel(row,col));
-      }      
-      this.data.push(arr);  
-    }    
-  }
+    return row * this.dataService.columns + col;
+  }    
   
   private render() {
+    if (this == undefined) {
+      return;
+    }
     this.drawGrid();
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.columns; col++) {
+    let data = this.dataService.data;
+    for (let row = 0; row < this.dataService.rows; row++) {
+      for (let col = 0; col < this.dataService.columns; col++) {
         let x = 1 + col * this.SIZE;         
         let y = 1 + row * this.SIZE;    
-        if (this.data[row][col].isMarked) {                          
-          this.fillSquare(x, y, this.data[row][col].color);
+        if (data[row][col].isMarked) {                          
+          this.fillSquare(x, y, data[row][col].color);
         }     
         else {
           this.fillSquare(x, y, "white");
@@ -144,14 +136,14 @@ export class App {
   }
   
   private drawGrid() {
-    for (var x = 0.5; x < (this.columns * this.SIZE) + 1; x += this.SIZE) {
+    for (var x = 0.5; x < (this.dataService.columns * this.SIZE) + 1; x += this.SIZE) {
       this.context.moveTo(x, 0);
-      this.context.lineTo(x, this.columns * this.SIZE);
+      this.context.lineTo(x, this.dataService.columns * this.SIZE);
     }
     
-    for (var y = 0.5; y < (this.rows * this.SIZE) + 1; y += this.SIZE) {
+    for (var y = 0.5; y < (this.dataService.rows * this.SIZE) + 1; y += this.SIZE) {
       this.context.moveTo(0, y);
-      this.context.lineTo((this.rows * this.SIZE), y);
+      this.context.lineTo((this.dataService.rows * this.SIZE), y);
     }
     
     this.context.strokeStyle = "#ddd";
