@@ -6,23 +6,43 @@ export class Graph {
   constructor(v: number) {
     this.numberOfVertices = v;
 
-    this.adjacencyList = new [][this.numberOfVertices];
-
-    // Create a new list for each vertex 
-    // such that adjacent nodes can be stored 
-
+    this.adjacencyList = [];
+   
     for (let index = 0; index < this.numberOfVertices; index++) {      
       this.adjacencyList.push(new Array<number>());      
     }    
   }  
 
-  addEdge(src : number, dest: number): void {
-        // Add an edge from src to dest. 
-        this.adjacencyList
-        //adjListArray[src].Add(dest);
+  addEdge(src : number, dest: number): void {        
+        this.adjacencyList[src].push(dest);
+        this.adjacencyList[dest].push(src);       
+    }
 
-        // Since graph is undirected, add an edge from dest 
-        // to src also 
-        //adjListArray[dest].Add(src);
+  runDFS(v: number, visited : boolean[] ) : number[] {
+        // Mark the current node as visited and print it 
+        visited[v] = true;
+        var retValue = new Array<number>();
+        retValue.push(v);
+
+        this.adjacencyList[v].forEach(element => {
+          if (!visited[element]) {            
+               retValue.concat(this.runDFS(element, visited));
+            }
+        });              
+        return retValue;
+  }
+
+    calcConnectedComponents() : Array<Array<number>> {
+        // Mark all the vertices as not visited 
+        var visited: boolean[] = new Array(this.numberOfVertices);
+        var retValue : Array<Array<number>> = new Array<Array<number>>();
+        for (let index = 0; index < this.numberOfVertices; index++) {          
+          const element = visited[index];
+          if (!visited) {
+            var component = this.runDFS(index, visited);
+            retValue.push(component);
+          }
+        }   
+        return retValue;             
     }
 }
