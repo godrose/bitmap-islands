@@ -1,11 +1,14 @@
 export class Pixel {
   
-  public x: number;
-  public y: number;
+  public row: number;
+  public col: number;
   public isMarked: boolean;
+  public color: string;
 
-  constructor(x: number, y: number){
-    this.x = x;
-    this.y = y;
+  constructor(row: number, col: number){
+    this.row = row;
+    this.col = col;
+    this.isMarked = false;
+    this.color = "gray";
   } 
 }

@@ -1,32 +1,47 @@
 export class Graph {
 
   private numberOfVertices: number;
-  private adjacencyList: Array<Array<number>>;
+  private adjacencyList: Map<number, Array<number>>;
 
-  constructor(v: number) {
-    this.numberOfVertices = v;
+  constructor(nodes: number[]) {
+    this.numberOfVertices = nodes.length;
 
-    this.adjacencyList = [];
+    this.adjacencyList = new Map<number, Array<number>>();
    
-    for (let index = 0; index < this.numberOfVertices; index++) {      
-      this.adjacencyList.push(new Array<number>());      
-    }    
+    nodes.forEach(n => {
+      this.adjacencyList.set(n, new Array<number>());
+    })       
   }  
 
-  addEdge(src : number, dest: number): void {        
-        this.adjacencyList[src].push(dest);
-        this.adjacencyList[dest].push(src);       
+  addEdge(src : number, dest: number): void {  
+        let source = this.adjacencyList.get(src);
+        if (source == undefined)
+        {
+          console.log("source is undefined")
+        }
+        if (source.includes(dest) == false) {
+          source.push(dest);
+        }
+        
+        let destination = this.adjacencyList.get(dest);
+        if (destination == undefined)
+        {
+          console.log("source is undefined")
+        }
+        if (destination.includes(src) == false) {
+          destination.push(src);
+        }            
     }
 
-  runDFS(v: number, visited : boolean[] ) : number[] {
+  runDFS(node: number, visited : Map<number, boolean> ) : number[] {
         // Mark the current node as visited and print it 
-        visited[v] = true;
-        var retValue = new Array<number>();
-        retValue.push(v);
+        visited.set(node,true);
+        let retValue = new Array<number>();
+        retValue.push(node);
 
-        this.adjacencyList[v].forEach(element => {
-          if (!visited[element]) {            
-               retValue.concat(this.runDFS(element, visited));
+        this.adjacencyList.get(node).forEach(element => {
+          if (!visited.get(element)) {            
+               retValue = retValue.concat(this.runDFS(element, visited));
             }
         });              
         return retValue;
@@ -34,15 +49,19 @@ export class Graph {
 
     calcConnectedComponents() : Array<Array<number>> {
         // Mark all the vertices as not visited 
-        var visited: boolean[] = new Array(this.numberOfVertices);
-        var retValue : Array<Array<number>> = new Array<Array<number>>();
-        for (let index = 0; index < this.numberOfVertices; index++) {          
-          const element = visited[index];
-          if (!visited) {
-            var component = this.runDFS(index, visited);
+        let visited = new Map<number, boolean>();
+        
+        this.adjacencyList.forEach((value, key) => {
+          visited.set(key, false);
+        })
+        let retValue : Array<Array<number>> = new Array<Array<number>>();
+        this.adjacencyList.forEach((value, key) => {
+          const element = visited.get(key);
+          if (!element) {
+            var component = this.runDFS(key, visited);
             retValue.push(component);
           }
-        }   
+        })        
         return retValue;             
     }
 }

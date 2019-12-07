@@ -1,7 +1,8 @@
 <template>   
   <input id = "width" type = "text" value.bind = "width" />
   <input id = "height" type = "text" value.bind = "height" />
-  <button click.delegate = "generate()">Randomise</button>
+  <button click.delegate = "randomise()">Randomise</button>
   <button click.delegate = "solve()">Solve</button>
-  <canvas id="myCanvas" width="5000" height="5000"></canvas>
+  <button click.delegate = "clear()">Clear</button>
+  <canvas id="myCanvas" width="10000" height="10000"></canvas>
 </template>
