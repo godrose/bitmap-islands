@@ -1,12 +1,10 @@
 import { Stack } from 'stack-typescript';
 
 export class Graph {
-
-  private numberOfVertices: number;
+  
   private adjacencyList: Map<number, Array<number>>;
 
-  constructor(nodes: number[]) {
-    this.numberOfVertices = nodes.length;
+  constructor(nodes: number[]) {    
 
     this.adjacencyList = new Map<number, Array<number>>();
    
@@ -21,18 +19,22 @@ export class Graph {
         {
           console.log("source is undefined")
         }
-        if (source.includes(dest) == false) {
-          source.push(dest);
+        else {
+          if (source.includes(dest) == false) {
+            source.push(dest);
+          }
         }
-        
+                
         let destination = this.adjacencyList.get(dest);
         if (destination == undefined)
         {
           console.log("source is undefined")
         }
-        if (destination.includes(src) == false) {
-          destination.push(src);
-        }            
+        else {
+          if (destination.includes(src) == false) {
+            destination.push(src);
+          }  
+        }                 
     }
 
   runIterativeDFS(node: number) : number[] {

@@ -4,8 +4,23 @@ import { autoinject } from 'aurelia-framework';
 @autoinject()
 export class DataService {  
   
-  public columns: number = 200;
-  public rows: number = 200;
+  private _columns: number = 200;
+  get columns(): number {
+    return this._columns;
+  }
+  set columns(value: number) {
+    this._columns = value;
+    this.initBoard();
+  }
+
+  private _rows: number = 200;
+  get rows(): number {
+    return this._rows;
+  }
+  set rows(value: number) {
+    this._rows = value;
+    this.initBoard();
+  }  
   public data: Pixel[][];
   private randomFactor: number = 0.8;
 
