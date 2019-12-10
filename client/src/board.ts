@@ -1,8 +1,6 @@
 import { Router, RouteConfig } from 'aurelia-router';
-import { DataService } from './model/data-service';
 import { autoinject } from 'aurelia-framework';
-import { Graph } from './graph';
-import { Matrix } from './matrix';
+import { DataService, Graph, GraphService, Matrix } from './model';
 
 @autoinject
 export class Board {
@@ -10,7 +8,7 @@ export class Board {
   private context: any;
   private SIZE: number = 10;
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private graphService: GraphService, private router: Router) {
 
   }
 
@@ -37,17 +35,18 @@ export class Board {
     this.router.navigateToRoute('home');
   }
 
-  solve() {
-    let graph = this.mapToGraph();
-    let components = graph.calcConnectedComponents();
-    components.forEach((component, componentIndex) => {
-      component.forEach(nodeIndex => {
-        let row = Math.floor(nodeIndex / this.dataService.columns);
-        let col = nodeIndex % this.dataService.columns;        
-        this.dataService.data[row][col].color = this.getColor(componentIndex);
-      })
-    });
-    this.render();
+  public async solve() {
+    let nodes = this.mapToNodes();
+    await this.graphService.solve(nodes, this.dataService.rows, this.dataService.columns).then(components => {
+      components.forEach((component, componentIndex) => {
+        component.forEach(nodeIndex => {
+          let row = Math.floor(nodeIndex / this.dataService.columns);
+          let col = nodeIndex % this.dataService.columns;        
+          this.dataService.data[row][col].color = this.getColor(componentIndex);
+        })
+      });
+      this.render();
+    });        
   }
 
   getColor(index: number) : string {
@@ -55,7 +54,7 @@ export class Board {
     return colors[index % colors.length];
   }
 
-  mapToGraph() : Graph {
+  mapToNodes(): number[] {
     let nodes = [];
     let data = this.dataService.data;
     for (let i = 0; i < data.length; i++) {
@@ -67,30 +66,8 @@ export class Board {
         }
       }
     }
-    let graph = new Graph(nodes);
-    let cols = this.dataService.columns;
-    let rows = this.dataService.rows;
-    for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
-      const row = data[rowIndex];
-      for (let colIndex = 0; colIndex < row.length; colIndex++) {
-        const element = row[colIndex];
-        if (element.isMarked) {
-          let neighbors = Matrix.getNeighbors(this.dataService.rows, this.dataService.columns, rowIndex, colIndex);
-          neighbors.forEach(n => {     
-            if (data[n.row][n.col].isMarked) {
-              try {
-                graph.addEdge(rowIndex * cols + colIndex, n.row * rows + n.col);
-              } catch (error) {
-                console.log(`${error} - row ${rowIndex} col ${colIndex} neighbor row ${n.row} neighbor col ${n.col}`)
-              }
-              
-            }            
-          })
-        }
-      }
-    }
-    return graph;
-  }
+    return nodes;
+  }  
 
   getIndex(row: number, col: number) : number {
     return row * this.dataService.columns + col;

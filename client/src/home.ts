@@ -1,5 +1,5 @@
 import { Router } from 'aurelia-router';
-import { DataService } from './model/data-service';
+import { DataService } from './model';
 import { autoinject } from 'aurelia-framework';
 
 @autoinject
