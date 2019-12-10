@@ -19,24 +19,23 @@ Thumbs.db
 # Ref: https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
 # Ref: https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
 .idea
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+/client/.vscode/*
+/client/!.vscode/settings.json
+/client/!.vscode/tasks.json
+/client/!.vscode/launch.json
+/client/!.vscode/extensions.json
 
-.chrome/*
-.chrome/Default/*
+/client/.chrome/*
+/client/.chrome/Default/*
 
 # Dependencies
 node_modules
 
 # Compiled files
-/scripts
-/src/environment.js
-/src/environment.ts
-/dist
-/test/coverage-jest
-/test/coverage-karma
+/client/scripts
+/client/src/environment.js
+/client/dist
+/client/test/coverage-jest
+/client/test/coverage-karma
 
 
