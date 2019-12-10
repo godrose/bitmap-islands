@@ -39,7 +39,7 @@ export class Board {
     let nodes = this.mapToNodes();
     await this.graphService.solve(nodes, this.dataService.rows, this.dataService.columns).then(components => {
       components.forEach((component, componentIndex) => {
-        component.forEach(nodeIndex => {
+          component.nodes.forEach(nodeIndex => {
           let row = Math.floor(nodeIndex / this.dataService.columns);
           let col = nodeIndex % this.dataService.columns;        
           this.dataService.data[row][col].color = this.getColor(componentIndex);

@@ -9,14 +9,13 @@ export class GraphService {
 
   }
 
-  public async solve(nodes: number[], totalRows: number, totalColumns: number): Promise<number[][]> {
+  public async solve(nodes: number[], totalRows: number, totalColumns: number): Promise<any> {        
+    return await this.graphProvider.invokeSolution(nodes, totalRows, totalColumns);    
+   /*
     let graph = this.mapToGraph(nodes);
-    /*
-    let result = await this.graphProvider.invokeSolution(nodes, totalRows, totalColumns);
-    return result as number[][];
-    */
     let components = graph.calcConnectedComponents();
     return components;
+    */
   }
 
   private mapToGraph(nodes: number[]) : Graph {    
