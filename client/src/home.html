@@ -1,6 +1,16 @@
 <template>
-    <input id = "width" type = "text" value.bind = "width" />
-    <input id = "height" type = "text" value.bind = "height" />
-    <button click.delegate = "randomise()">Randomise</button>
-    <button click.delegate = "draw()">Draw</button>            
+  <div class="vertical-box">
+    <div class="marginal">
+        <label>Provide number of rows</label>
+        <input id = "rows" type = "text" value.bind = "rows" />
+    </div>
+    <div class="marginal">
+        <label>Provide number of columns</label>
+        <input id = "columns" type = "text" value.bind = "columns" />
+    </div>
+    <div class="vertical-box marginal">
+        <button click.delegate = "randomise()">Randomise</button>
+        <button click.delegate = "draw()">Draw</button>  
+    </div>                  
+  </div>    
 </template>

@@ -5,19 +5,20 @@ import { autoinject } from 'aurelia-framework';
 @autoinject
 export class Home {
 
-    get width(): number {
-        return this.dataService.columns;
-    }
-    set width(value: number) {
-        this.dataService.columns = value;
-    }  
-
-    get height(): number {
-      return this.dataService.rows;
+  get rows(): number {
+    return this.dataService.rows;
   }
-  set height(value: number) {
-      this.dataService.rows = value;
+
+  set rows(value: number) {
+    this.dataService.rows = value;
   }   
+
+  get columns(): number {
+    return this.dataService.columns;
+  }
+  set columns(value: number) {
+    this.dataService.columns = value;
+  }      
 
   constructor(private dataService: DataService, private router : Router) {    
   }

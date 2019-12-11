@@ -1,0 +1,21 @@
+button {
+  width: 300px;
+  background: #03adfc;
+  color: white
+}
+
+.vertical-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+input {
+  width: 120px;
+  font-family: verdana;
+  font-size: 12px
+}
+
+.marginal {
+  margin: 2px;
+}

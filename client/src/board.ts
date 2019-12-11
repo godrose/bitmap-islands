@@ -8,6 +8,14 @@ export class Board {
   private context: any;
   private SIZE: number = 10;
 
+  get height(): number {
+    return this.dataService.rows * this.SIZE;
+  }     
+
+  get width(): number {
+    return this.dataService.columns * this.SIZE;
+  }     
+
   constructor(private dataService: DataService, private graphService: GraphService, private router: Router) {
 
   }
@@ -98,7 +106,7 @@ export class Board {
       for (let col = 0; col < this.dataService.columns; col++) {
         let x = 1 + col * this.SIZE;         
         let y = 1 + row * this.SIZE;    
-        if (data[row][col].isMarked) {                          
+        if (data[row] && data[row][col] && data[row][col].isMarked) {                          
           this.fillSquare(x, y, data[row][col].color);
         }     
         else {
