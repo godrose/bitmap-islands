@@ -58,7 +58,7 @@ export class Board {
   }
 
   getColor(index: number) : string {
-    var colors = ['red', 'blue', 'green', 'yellow'];
+    var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'aqua'];
     return colors[index % colors.length];
   }
 

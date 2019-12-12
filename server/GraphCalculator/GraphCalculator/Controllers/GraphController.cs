@@ -12,7 +12,7 @@ namespace GraphCalculator.Controllers
   public class GraphController : Controller
   {       
     [HttpPost("solve")]
-    public async Task<IActionResult> Update([FromBody] MatrixInfoDto matrixInfo)
+    public async Task<IActionResult> Solve([FromBody] MatrixInfoDto matrixInfo)
     {
       try
       {
@@ -22,7 +22,7 @@ namespace GraphCalculator.Controllers
       }
       catch (Exception ex)
       {
-        return BadRequest($"Unable to update experiment: {ex.Message}");
+        return BadRequest($"Unable to calculate components: {ex.Message}");
       }
     }
 

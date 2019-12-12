@@ -4,7 +4,7 @@ import { autoinject } from 'aurelia-framework';
 @autoinject()
 export class DataService {  
   
-  private _columns: number = 200;
+  private _columns: number = 1000;
   get columns(): number {
     return this._columns;
   }
@@ -13,7 +13,7 @@ export class DataService {
     this.initBoard();
   }
 
-  private _rows: number = 200;
+  private _rows: number = 1000;
   get rows(): number {
     return this._rows;
   }
